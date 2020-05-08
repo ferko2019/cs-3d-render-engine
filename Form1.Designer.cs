@@ -32,7 +32,7 @@ namespace _3D_Render_Engine_Whit_UI
 
         public void ConsolePrint(string txt)
         {
-            Console.Text += "\n" + txt;
+            Console.Text += "\n"+txt;
         }
 
         private void InitializeComponent()
@@ -50,7 +50,17 @@ namespace _3D_Render_Engine_Whit_UI
             this.renderSettingFilePath = new System.Windows.Forms.TextBox();
             this.button1 = new System.Windows.Forms.Button();
             this.Console = new System.Windows.Forms.Label();
+            this.button2 = new System.Windows.Forms.Button();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.FovInput = new System.Windows.Forms.NumericUpDown();
+            this.NearInput = new System.Windows.Forms.NumericUpDown();
+            this.FarInput = new System.Windows.Forms.NumericUpDown();
             ((System.ComponentModel.ISupportInitialize)(this.imageOutput)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.FovInput)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NearInput)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.FarInput)).BeginInit();
             this.SuspendLayout();
             // 
             // imageOutput
@@ -76,7 +86,7 @@ namespace _3D_Render_Engine_Whit_UI
             // 
             // renderButton
             // 
-            this.renderButton.Location = new System.Drawing.Point(881, 37);
+            this.renderButton.Location = new System.Drawing.Point(881, 11);
             this.renderButton.Name = "renderButton";
             this.renderButton.Size = new System.Drawing.Size(276, 44);
             this.renderButton.TabIndex = 2;
@@ -94,66 +104,171 @@ namespace _3D_Render_Engine_Whit_UI
             this.progressBar.Name = "progressBar";
             this.progressBar.Size = new System.Drawing.Size(1234, 23);
             this.progressBar.TabIndex = 3;
-            this.progressBar.Value = 100;
             // 
             // objFilePath
             // 
             this.objFilePath.Font = new System.Drawing.Font("Dubai", 8.25F);
-            this.objFilePath.Location = new System.Drawing.Point(957, 168);
+            this.objFilePath.Location = new System.Drawing.Point(957, 142);
             this.objFilePath.Name = "objFilePath";
             this.objFilePath.Size = new System.Drawing.Size(200, 26);
             this.objFilePath.TabIndex = 4;
+            this.objFilePath.Text = "H:\\GitProjects\\3D Render Engine Whit UI\\Objects\\cube.obj";
+            this.objFilePath.TextChanged += new System.EventHandler(this.ObjFilePath_TextChanged);
             // 
             // label2
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.label2.Location = new System.Drawing.Point(832, 168);
+            this.label2.Location = new System.Drawing.Point(832, 142);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(119, 20);
             this.label2.TabIndex = 5;
             this.label2.Text = "Object file path:";
+            this.label2.Click += new System.EventHandler(this.Label2_Click);
             // 
             // label3
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.label3.Location = new System.Drawing.Point(797, 211);
+            this.label3.Location = new System.Drawing.Point(797, 185);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(154, 20);
             this.label3.TabIndex = 6;
             this.label3.Text = "Render setting path:";
+            this.label3.Click += new System.EventHandler(this.Label3_Click);
             // 
             // renderSettingFilePath
             // 
             this.renderSettingFilePath.Font = new System.Drawing.Font("Dubai", 8.25F);
-            this.renderSettingFilePath.Location = new System.Drawing.Point(957, 211);
+            this.renderSettingFilePath.Location = new System.Drawing.Point(957, 185);
             this.renderSettingFilePath.Name = "renderSettingFilePath";
             this.renderSettingFilePath.Size = new System.Drawing.Size(200, 26);
             this.renderSettingFilePath.TabIndex = 7;
+            this.renderSettingFilePath.TextChanged += new System.EventHandler(this.RenderSettingFilePath_TextChanged);
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(881, 87);
+            this.button1.Location = new System.Drawing.Point(881, 61);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(276, 44);
             this.button1.TabIndex = 8;
-            this.button1.Text = "Save image";
+            this.button1.Text = "A";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.Button1_Click);
             // 
             // Console
             // 
-            this.Console.Location = new System.Drawing.Point(801, 270);
+            this.Console.AutoSize = true;
+            this.Console.Location = new System.Drawing.Point(802, 256);
+            this.Console.MaximumSize = new System.Drawing.Size(354, 1000);
             this.Console.Name = "Console";
-            this.Console.Size = new System.Drawing.Size(451, 244);
+            this.Console.Size = new System.Drawing.Size(0, 13);
             this.Console.TabIndex = 9;
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(1084, 557);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(167, 26);
+            this.button2.TabIndex = 10;
+            this.button2.Text = "Exit";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.Button2_Click);
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.label4.Location = new System.Drawing.Point(798, 218);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(39, 20);
+            this.label4.TabIndex = 11;
+            this.label4.Text = "Fov:";
+            this.label4.Click += new System.EventHandler(this.Label4_Click);
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.label5.Location = new System.Drawing.Point(894, 219);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(47, 20);
+            this.label5.TabIndex = 12;
+            this.label5.Text = "Near:";
+            this.label5.Click += new System.EventHandler(this.Label5_Click);
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.label6.Location = new System.Drawing.Point(1024, 218);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(37, 20);
+            this.label6.TabIndex = 13;
+            this.label6.Text = "Far:";
+            this.label6.Click += new System.EventHandler(this.Label6_Click);
+            // 
+            // FovInput
+            // 
+            this.FovInput.Location = new System.Drawing.Point(837, 219);
+            this.FovInput.Name = "FovInput";
+            this.FovInput.Size = new System.Drawing.Size(51, 20);
+            this.FovInput.TabIndex = 14;
+            this.FovInput.Value = new decimal(new int[] {
+            60,
+            0,
+            0,
+            0});
+            this.FovInput.ValueChanged += new System.EventHandler(this.FovInput_ValueChanged);
+            // 
+            // NearInput
+            // 
+            this.NearInput.Location = new System.Drawing.Point(948, 218);
+            this.NearInput.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            327680});
+            this.NearInput.Name = "NearInput";
+            this.NearInput.Size = new System.Drawing.Size(70, 20);
+            this.NearInput.TabIndex = 15;
+            this.NearInput.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            327680});
+            this.NearInput.ValueChanged += new System.EventHandler(this.NearInput_ValueChanged);
+            // 
+            // FarInput
+            // 
+            this.FarInput.Location = new System.Drawing.Point(1067, 218);
+            this.FarInput.Maximum = new decimal(new int[] {
+            9999999,
+            0,
+            0,
+            0});
+            this.FarInput.Name = "FarInput";
+            this.FarInput.Size = new System.Drawing.Size(76, 20);
+            this.FarInput.TabIndex = 16;
+            this.FarInput.Value = new decimal(new int[] {
+            100,
+            0,
+            0,
+            0});
+            this.FarInput.ValueChanged += new System.EventHandler(this.FarInput_ValueChanged);
             // 
             // EngineUi
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1264, 681);
+            this.ClientSize = new System.Drawing.Size(1264, 593);
+            this.Controls.Add(this.FarInput);
+            this.Controls.Add(this.NearInput);
+            this.Controls.Add(this.FovInput);
+            this.Controls.Add(this.label6);
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.button2);
             this.Controls.Add(this.Console);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.renderSettingFilePath);
@@ -168,6 +283,9 @@ namespace _3D_Render_Engine_Whit_UI
             this.Text = "Render Engine";
             this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.imageOutput)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.FovInput)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NearInput)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.FarInput)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -188,6 +306,13 @@ namespace _3D_Render_Engine_Whit_UI
         private System.Windows.Forms.TextBox renderSettingFilePath;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Label Console;
+        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.NumericUpDown FovInput;
+        private System.Windows.Forms.NumericUpDown NearInput;
+        private System.Windows.Forms.NumericUpDown FarInput;
     }
 }
 
