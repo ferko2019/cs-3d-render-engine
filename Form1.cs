@@ -30,7 +30,7 @@ namespace _3D_Render_Engine_Whit_UI
         {
             _3DObject obj = ObjDecoder.LoadObj(objFilePath.Text,this);
             _3DObject[] objs = new _3DObject[1] { obj };
-            Rasterizer.Rasterize(1280, 720,objs, this);
+            imageOutput.Image = Rasterizer.Rasterize(1280, 720,objs, this);
         }
 
         private void Button1_Click(object sender, EventArgs e)

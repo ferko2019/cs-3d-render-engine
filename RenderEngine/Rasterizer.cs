@@ -13,8 +13,10 @@ namespace _3D_Render_Engine_Whit_UI.RenderEngine
         public static Bitmap Rasterize(int width, int height,_3DObject[] objects,EngineUi form)
         {
             Size size = new Size(width, height);
+            Vector2 offset = new Vector2() { x = width / 2, y = height / 2 };
             //Console.WriteLine(objects.Length);
             //Console.WriteLine(objects[0].verticies.Length);
+            Bitmap image = new Bitmap(size.Width, size.Height, System.Drawing.Imaging.PixelFormat.Format24bppRgb);
             foreach (_3DObject obj in objects)
             {
                 Vector pos = obj.pos;
@@ -22,10 +24,10 @@ namespace _3D_Render_Engine_Whit_UI.RenderEngine
                 Vector scale = obj.scale;
                 foreach (Vector vert in obj.verticies)
                 {
-                    Console.WriteLine(Project(vert, pos, rot, scale, form.fov, form.near, form.far, 10,size));
+                    Vector2 projected = Project(vert, pos, rot, scale, form.fov, form.near, form.far, 10,size);
+                    image.SetPixel((int)Math.Round(projected.x+offset.x),(int)Math.Round(projected.y+offset.y),Color.Red);
                 }
             }
-            Bitmap image = new Bitmap(size.Width, size.Height, System.Drawing.Imaging.PixelFormat.Format24bppRgb);
             return image;
         }
 
@@ -42,6 +44,11 @@ namespace _3D_Render_Engine_Whit_UI.RenderEngine
                 {0,(2*near)/(t-b),0,0 },
                 {(r+1)/(r-1),(t+b)/(t-b),-((far+near)/(far-near)),-1 },
                 {0,0,-((2*far*near)/(far-near)),0 }
+            };
+
+            double[,] ortho_phojection_matrix = new double[2,3] {
+                {1,0,0},
+                {0,1,0 }
             };
 
             float[,] rotate_x_matrix = new float[3, 3]{
@@ -65,21 +72,29 @@ namespace _3D_Render_Engine_Whit_UI.RenderEngine
             vert = Vector.Multiply(vert, scale);
             vert = Vector.Add(vert,pos);
             Console.WriteLine(vert.Print());
-            float[,] vert_matrix_3 = { { vert.x, vert.y, vert.z} };
+            float[,] vert_matrix_3 = new float[1,3]{ { vert.x, vert.y, vert.z} };
 
             vert_matrix_3 = Matrix.Multiply(vert_matrix_3, rotate_x_matrix);
             vert_matrix_3 = Matrix.Multiply(vert_matrix_3, rotate_y_matrix);
             vert_matrix_3 = Matrix.Multiply(vert_matrix_3, rotate_z_matrix);
 
-            float[,] vert_matrix_4 = { { vert_matrix_3[0, 0]/vert.w, vert_matrix_3[0, 1]/vert.w, vert_matrix_3[0, 2]/vert.w, 1 } };
+            float[,] vert_matrix_4 = { { vert_matrix_3[0, 0]/vert.w, vert_matrix_3[0, 1]/vert.w, vert_matrix_3[0, 2]/vert.w, vert.w } };
 
-            float[,] projected_matrix = Matrix.Multiply(vert_matrix_4, projection_matrix);
+            double[,] vert_matrix_3_2 = new double[3, 1] { { vert_matrix_3[0, 0] }, { vert_matrix_3[0, 1] }, { vert_matrix_3[0, 2] } };
 
-            Console.WriteLine(projected_matrix[0, 0] + " ; " + projected_matrix[0, 1] + " ; " + projected_matrix[0, 2] + " ; " + projected_matrix[0, 3] + ";" + projected_matrix.GetLength(0)+";"+projected_matrix.GetLength(1).ToString());
+            //float[,] projected_matrix = new float[3, 1];//Matrix.Multiply(ortho_phojection_matrix,vert_matrix_3_2);
+
+            SimpleMatrix.Matrix vert_matrix_3_2_matrix = new SimpleMatrix.Matrix(vert_matrix_3_2);
+            SimpleMatrix.Matrix ortho_projection = new SimpleMatrix.Matrix(ortho_phojection_matrix);
+
+            SimpleMatrix.Matrix projected_matrix = ortho_projection * vert_matrix_3_2_matrix;
+
+            //Console.WriteLine(projected_matrix[0, 0] + " ; " + projected_matrix[0, 1] + " ; " + projected_matrix[0, 2] + ";" + projected_matrix.Rows+";"+projected_matrix.Columns.ToString());
+            //Console.WriteLine(projected_matrix[0, 0] + " ; " + projected_matrix[0, 1] + " ; " + projected_matrix[0, 2] + " ; " + projected_matrix[0, 3] + ";" + projected_matrix.GetLength(0)+";"+projected_matrix.GetLength(1).ToString());
 
             Vector2 projected = new Vector2();
-            projected.x = projected_matrix[0, 0] * world_scale;
-            projected.y = projected_matrix[0, 1] * world_scale;
+            projected.x = (float)projected_matrix[0, 0] * world_scale;
+            projected.y = (float)projected_matrix[1, 0] * world_scale;
             return projected;
         }
     }
