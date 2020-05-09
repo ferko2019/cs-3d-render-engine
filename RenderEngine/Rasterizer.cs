@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
 using SimpleMatrix;
+using System.Numerics;
 
 namespace _3D_Render_Engine_Whit_UI.RenderEngine
 {
@@ -13,25 +14,25 @@ namespace _3D_Render_Engine_Whit_UI.RenderEngine
         public static Bitmap Rasterize(int width, int height,_3DObject[] objects,EngineUi form)
         {
             Size size = new Size(width, height);
-            Vector2 offset = new Vector2() { x = width / 2, y = height / 2 };
+            Vector2 offset = new Vector2(width/2,height/2);
             //Console.WriteLine(objects.Length);
             //Console.WriteLine(objects[0].verticies.Length);
             Bitmap image = new Bitmap(size.Width, size.Height, System.Drawing.Imaging.PixelFormat.Format24bppRgb);
             foreach (_3DObject obj in objects)
             {
-                Vector pos = obj.pos;
-                Vector rot = obj.rotation;
-                Vector scale = obj.scale;
-                foreach (Vector vert in obj.verticies)
+                Vector3 pos = obj.pos;
+                Vector3 rot = obj.rotation;
+                Vector3 scale = obj.scale;
+                foreach (Vector3 vert in obj.verticies)
                 {
                     Vector2 projected = Project(vert, pos, rot, scale, form.fov, form.near, form.far, 10,size);
-                    image.SetPixel((int)Math.Round(projected.x+offset.x),(int)Math.Round(projected.y+offset.y),Color.Red);
+                    image.SetPixel((int)Math.Round(projected.X + offset.X), (int)Math.Round(projected.Y + offset.Y), Color.Red);
                 }
             }
             return image;
         }
 
-        public static Vector2 Project(Vector vert,Vector pos,Vector rot,Vector scale,float fov,float near,float far,int world_scale,Size resolution)
+        public static Vector2 Project(Vector3 vert,Vector3 pos,Vector3 rot,Vector3 scale,float fov,float near,float far,int world_scale,Size resolution)
         {
             float S = 1 / ((float)Math.Tan((fov / 2) * (Math.PI / 180)));
             float aspect_ratio = resolution.Width / resolution.Height;
@@ -53,32 +54,30 @@ namespace _3D_Render_Engine_Whit_UI.RenderEngine
 
             float[,] rotate_x_matrix = new float[3, 3]{
                 {1,0,0 },
-                {0,(float)Math.Cos(rot.x),(float)-Math.Sin(rot.x) },
-                {0,(float)Math.Sin(rot.x),(float)Math.Cos(rot.x) }
+                {0,(float)Math.Cos(rot.X),(float)-Math.Sin(rot.X) },
+                {0,(float)Math.Sin(rot.X),(float)Math.Cos(rot.X) }
             };
 
             float[,] rotate_y_matrix = new float[3, 3]{
-                {(float)Math.Cos(rot.y),0,(float)Math.Sin(rot.y) },
+                {(float)Math.Cos(rot.Y),0,(float)Math.Sin(rot.Y) },
                 {0,1,0 },
-                {(float)-Math.Sin(rot.y),0,(float)Math.Cos(rot.y) }
+                {(float)-Math.Sin(rot.Y),0,(float)Math.Cos(rot.Y) }
             };
 
             float[,] rotate_z_matrix = new float[3, 3]{
-                {(float)Math.Cos(rot.z),(float)-Math.Sin(rot.z),0 },
-                {(float)Math.Sin(rot.z),(float)Math.Cos(rot.z),0 },
+                {(float)Math.Cos(rot.Z),(float)-Math.Sin(rot.Z),0 },
+                {(float)Math.Sin(rot.Z),(float)Math.Cos(rot.Z),0 },
                 {0,0,1 }
             };
 
-            vert = Vector.Multiply(vert, scale);
-            vert = Vector.Add(vert,pos);
-            Console.WriteLine(vert.Print());
-            float[,] vert_matrix_3 = new float[1,3]{ { vert.x, vert.y, vert.z} };
+            vert = vert * scale;
+            vert = vert + pos;
+            Console.WriteLine(vert);
+            float[,] vert_matrix_3 = new float[1,3]{ { vert.X, vert.Y, vert.Z} };
 
             vert_matrix_3 = Matrix.Multiply(vert_matrix_3, rotate_x_matrix);
             vert_matrix_3 = Matrix.Multiply(vert_matrix_3, rotate_y_matrix);
             vert_matrix_3 = Matrix.Multiply(vert_matrix_3, rotate_z_matrix);
-
-            float[,] vert_matrix_4 = { { vert_matrix_3[0, 0]/vert.w, vert_matrix_3[0, 1]/vert.w, vert_matrix_3[0, 2]/vert.w, vert.w } };
 
             double[,] vert_matrix_3_2 = new double[3, 1] { { vert_matrix_3[0, 0] }, { vert_matrix_3[0, 1] }, { vert_matrix_3[0, 2] } };
 
@@ -93,8 +92,8 @@ namespace _3D_Render_Engine_Whit_UI.RenderEngine
             //Console.WriteLine(projected_matrix[0, 0] + " ; " + projected_matrix[0, 1] + " ; " + projected_matrix[0, 2] + " ; " + projected_matrix[0, 3] + ";" + projected_matrix.GetLength(0)+";"+projected_matrix.GetLength(1).ToString());
 
             Vector2 projected = new Vector2();
-            projected.x = (float)projected_matrix[0, 0] * world_scale;
-            projected.y = (float)projected_matrix[1, 0] * world_scale;
+            projected.X = (float)projected_matrix[0, 0] * world_scale;
+            projected.Y = (float)projected_matrix[1, 0] * world_scale;
             return projected;
         }
     }

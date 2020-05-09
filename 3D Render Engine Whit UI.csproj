@@ -64,11 +64,13 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RenderEngine\3DObject.cs" />
     <Compile Include="RenderEngine\Face.cs" />
+    <Compile Include="RenderEngine\Math3D.cs" />
     <Compile Include="RenderEngine\Matrix.cs" />
     <Compile Include="RenderEngine\ObjDecoder.cs" />
     <Compile Include="RenderEngine\Rasterizer.cs" />
-    <Compile Include="RenderEngine\Vector.cs" />
-    <Compile Include="RenderEngine\Vector2.cs" />
+    <Compile Include="RenderEngine\Ray.cs" />
+    <Compile Include="RenderEngine\RayTrace.cs" />
+    <Compile Include="RenderEngine\Triangle.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>

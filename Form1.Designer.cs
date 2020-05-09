@@ -57,6 +57,7 @@ namespace _3D_Render_Engine_Whit_UI
             this.FovInput = new System.Windows.Forms.NumericUpDown();
             this.NearInput = new System.Windows.Forms.NumericUpDown();
             this.FarInput = new System.Windows.Forms.NumericUpDown();
+            this.EngineSelect = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.imageOutput)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.FovInput)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NearInput)).BeginInit();
@@ -107,12 +108,12 @@ namespace _3D_Render_Engine_Whit_UI
             // 
             // objFilePath
             // 
-            this.objFilePath.Font = new System.Drawing.Font("Dubai", 8.25F);
+            this.objFilePath.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
             this.objFilePath.Location = new System.Drawing.Point(957, 142);
             this.objFilePath.Name = "objFilePath";
-            this.objFilePath.Size = new System.Drawing.Size(200, 26);
+            this.objFilePath.Size = new System.Drawing.Size(200, 20);
             this.objFilePath.TabIndex = 4;
-            this.objFilePath.Text = "H:\\GitProjects\\3D Render Engine Whit UI\\Objects\\cube.obj";
+            this.objFilePath.Text = "\\Objects\\cube.obj";
             this.objFilePath.TextChanged += new System.EventHandler(this.ObjFilePath_TextChanged);
             // 
             // label2
@@ -139,10 +140,10 @@ namespace _3D_Render_Engine_Whit_UI
             // 
             // renderSettingFilePath
             // 
-            this.renderSettingFilePath.Font = new System.Drawing.Font("Dubai", 8.25F);
+            this.renderSettingFilePath.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
             this.renderSettingFilePath.Location = new System.Drawing.Point(957, 185);
             this.renderSettingFilePath.Name = "renderSettingFilePath";
-            this.renderSettingFilePath.Size = new System.Drawing.Size(200, 26);
+            this.renderSettingFilePath.Size = new System.Drawing.Size(200, 20);
             this.renderSettingFilePath.TabIndex = 7;
             this.renderSettingFilePath.TextChanged += new System.EventHandler(this.RenderSettingFilePath_TextChanged);
             // 
@@ -257,11 +258,24 @@ namespace _3D_Render_Engine_Whit_UI
             0});
             this.FarInput.ValueChanged += new System.EventHandler(this.FarInput_ValueChanged);
             // 
+            // EngineSelect
+            // 
+            this.EngineSelect.FormattingEnabled = true;
+            this.EngineSelect.Items.AddRange(new object[] {
+            "Rasterize",
+            "Raytracer"});
+            this.EngineSelect.Location = new System.Drawing.Point(882, 106);
+            this.EngineSelect.Name = "EngineSelect";
+            this.EngineSelect.Size = new System.Drawing.Size(260, 21);
+            this.EngineSelect.TabIndex = 17;
+            this.EngineSelect.Text = "Select Engine";
+            // 
             // EngineUi
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1264, 593);
+            this.Controls.Add(this.EngineSelect);
             this.Controls.Add(this.FarInput);
             this.Controls.Add(this.NearInput);
             this.Controls.Add(this.FovInput);
@@ -313,6 +327,7 @@ namespace _3D_Render_Engine_Whit_UI
         private System.Windows.Forms.NumericUpDown FovInput;
         private System.Windows.Forms.NumericUpDown NearInput;
         private System.Windows.Forms.NumericUpDown FarInput;
+        private System.Windows.Forms.ComboBox EngineSelect;
     }
 }
 
